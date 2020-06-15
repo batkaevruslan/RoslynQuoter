@@ -11,7 +11,7 @@ namespace QuoterService.Controllers
     [Route("api/[controller]")]
     public class QuoterController : Controller
     {
-        [HttpGet]
+        [HttpPost]
         public IActionResult Get(
             string sourceText,
             NodeKind nodeKind = NodeKind.CompilationUnit,
@@ -28,10 +28,6 @@ namespace QuoterService.Controllers
             if (string.IsNullOrEmpty(sourceText))
             {
                 responseText = "Please specify the source text.";
-            }
-            else if (sourceText.Length > 2000)
-            {
-                responseText = "Only strings shorter than 2000 characters are supported; your input string is " + sourceText.Length + " characters long.";
             }
             else
             {

@@ -8,9 +8,7 @@ function generateQuery() {
     var preserveOriginalWhitespace = getCheckboxValue("preserveOriginalWhitespace");
     var keepRedundantApiCalls = getCheckboxValue("keepRedundantApiCalls");
     var avoidUsingStatic = getCheckboxValue("avoidUsingStatic");
-    var query = "api/quoter/?sourceText=" + encodeURIComponent(inputBox.value);
-
-    query = query + "&nodeKind=" + nodeKind;
+    var query = "api/quoter?nodeKind=" + nodeKind;
 
     if (openCurlyOnNewLine) {
         query = query + "&openCurlyOnNewLine=true";
@@ -55,9 +53,11 @@ function getCheckboxValue(id) {
 
 function getUrl(url, callback) {
     enableSubmit(false);
+    var data = new FormData();
+    data.append("sourceText", inputBox.value);
+
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", url, true);
-    xhr.setRequestHeader("Accept", "text/html");
+    xhr.open("POST", url, true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             var data = xhr.responseText;
@@ -67,8 +67,8 @@ function getUrl(url, callback) {
         }
 
         enableSubmit(true);
-    };
-    xhr.send();
+    };    
+    xhr.send(data);
     return xhr;
 }
 
