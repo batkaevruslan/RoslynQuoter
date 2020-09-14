@@ -43,6 +43,14 @@ namespace QuoterService.Controllers
                     };
 
                     responseText = quoter.QuoteText(sourceText, nodeKind);
+
+                    var typedefTypeNames = new[] { "BooleanTypedef", "GuidTypedef", "IntTypedef", "LongTypedef", "StringTypedef" };
+                    const string structNameParameter = "structName";
+                    const string typeConverterNameParameter = "typeConverterName";
+                    foreach (string typedefTypeName in typedefTypeNames) {
+	                    responseText = responseText.Replace($"\"{typedefTypeName}\"", structNameParameter);
+	                    responseText = responseText.Replace($"\"{typedefTypeName}TypeConverter\"", typeConverterNameParameter);
+                    }
                 }
                 catch (Exception ex)
                 {
